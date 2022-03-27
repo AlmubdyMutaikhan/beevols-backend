@@ -18,6 +18,10 @@ authRoute.post('/signup', async (req, res) => {
         req.body.about = 'Мен еріктімін.';
         req.body.region = 'Қарағанды қаласы';
         req.body.major = 'Медицина';
+        req.body.date = '2000-01-01';
+        req.body.avatarURL = '';
+        req.body.wins = '';
+
         
         const newUser = await UserModel.create(req.body);
         const token = Token.generateToken({id: newUser._id, user : newUser});

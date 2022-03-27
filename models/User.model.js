@@ -25,6 +25,15 @@ const UserSchema = new Schema({
     },
     major : {
         type : String
+    },
+    date : {
+        type : String
+    },
+    avatarURL : {
+        type : String
+    },
+    wins: {
+        type : String
     }
 })
 
