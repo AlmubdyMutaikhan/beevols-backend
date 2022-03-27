@@ -15,7 +15,7 @@ authRoute.post('/signup', async (req, res) => {
 
         req.body.password = await Password.hashPassword(req.body.password);
         const newUser = await UserModel.create(req.body);
-        const token = Token.generateToken({id: newUser._id, email : newUser.email});
+        const token = Token.generateToken({id: newUser._id, user : newUser});
 
         res.status(201).send({"msg":"ok", token});
     } catch(err) {
@@ -35,7 +35,7 @@ authRoute.post('/signin', async (req, res) => {
         const passwordIdentity = await Password.comparePasswords(req.body.password, existingUser.password);
         if(!passwordIdentity) { throw new Error("incorrect email or password") }
 
-        const token = Token.generateToken({id: existingUser._id, email : existingUser.email});
+        const token = Token.generateToken({id: existingUser._id, user : existingUser});
 
         res.status(201).send({"msg":"ok", token});
     } catch(err) {
