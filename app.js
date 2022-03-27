@@ -3,6 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const DB = require('./db');
 const authRoute = require('./routes/auth.route');
+const userRoute = require('./routes/user.route');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -25,3 +26,4 @@ DB.connectToDB()
 
 
 app.use('/auth', authRoute);
+app.use('/user', userRoute);

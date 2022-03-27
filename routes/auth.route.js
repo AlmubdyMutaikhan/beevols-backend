@@ -14,6 +14,11 @@ authRoute.post('/signup', async (req, res) => {
         if(existingUser) { throw new Error("this email already exists") }
 
         req.body.password = await Password.hashPassword(req.body.password);
+        // auto fill the data
+        req.body.about = 'Мен еріктімін.';
+        req.body.region = 'Қарағанды қаласы';
+        req.body.major = 'Медицина';
+        
         const newUser = await UserModel.create(req.body);
         const token = Token.generateToken({id: newUser._id, user : newUser});
 
