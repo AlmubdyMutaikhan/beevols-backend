@@ -19,8 +19,8 @@ authRoute.post('/signup', async (req, res) => {
         req.body.region = 'Қарағанды қаласы';
         req.body.major = 'Медицина';
         req.body.date = '2000-01-01';
-        req.body.avatarURL = '';
-        req.body.wins = 'https://nextstepu.files.wordpress.com/2013/03/istock_000015874546medium.jpg';
+        req.body.avatarURL = 'https://nextstepu.files.wordpress.com/2013/03/istock_000015874546medium.jpg';
+        req.body.wins = '';
 
         
         const newUser = await UserModel.create(req.body);
