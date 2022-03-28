@@ -34,7 +34,15 @@ const UserSchema = new Schema({
     },
     wins: {
         type : String
-    }
+    },
+    blogs : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Blog'
+    }],
+    friends : [{
+        type : Schema.Types.ObjectId,
+        ref : 'User'
+    }]
 })
 
 const userModel = model('User', UserSchema);

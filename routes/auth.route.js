@@ -20,7 +20,7 @@ authRoute.post('/signup', async (req, res) => {
         req.body.major = 'Медицина';
         req.body.date = '2000-01-01';
         req.body.avatarURL = '';
-        req.body.wins = '';
+        req.body.wins = 'https://nextstepu.files.wordpress.com/2013/03/istock_000015874546medium.jpg';
 
         
         const newUser = await UserModel.create(req.body);

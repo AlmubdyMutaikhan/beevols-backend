@@ -25,4 +25,18 @@ userRoute.route('/')
         }
     })
 
+userRoute.get('/blog/all', async (req, res) => {
+    try {
+        const id = req.query.id;
+        if(id) {
+            const userDoc = await UserModel.findById(id).populate({path:'blogs'}).exec();
+            console.log(userDoc);
+            res.status(200).send({'msg':'ok', blogs:userDoc.blogs})
+        }
+    } catch(err) {
+        res.status(400).send({"msg":'nok', 'err':err.message});
+    }
+})
+
+
 module.exports = userRoute;

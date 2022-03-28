@@ -3,7 +3,8 @@ const DB_URI = `mongodb+srv://ali:bethebestbro@cluster0.s2ckp.mongodb.net/myFirs
 
 const connectToDB = async () => {
     const options = {
-        useNewUrlParser: true
+        useNewUrlParser: true,
+     
     }
 
     try {
