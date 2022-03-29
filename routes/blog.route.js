@@ -30,10 +30,31 @@ blogRoute.post('/new', async (req, res) => {
 blogRoute.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const blogDoc = await BlogModel.findById(id).populate({path:'author', select : 'fname sname'}).exec();
+        const blogDoc = await BlogModel.findById(id).populate({path:'author', select : 'fname sname avatarURL'}).exec();
         res.status(200).send({"msg":'ok', "blog":blogDoc});
     } catch(err) {
         res.status(400).send({"msg":'nok', "err":err.message});
+    }
+})
+
+
+blogRoute.post('/:id/comment', async (req, res) => {
+    try {
+        const blogID = req.params.id;
+        const blog = await BlogModel.findById(blogID);
+        const sender = await UserModel.findById(req.body.senderID).select('fname sname avatarURL');
+        
+        const comment = {
+            comment : req.body.comment,
+            senderID : req.body.senderID,
+            name : `${sender.sname} ${sender.fname}`,
+            avatarLink : sender.avatarURL
+        }
+        blog.comments.push(comment);
+        await blog.save();
+        res.status(201).send({'msg':"ok", 'blogID' : blog._id});
+    } catch(err) {
+         res.status(400).send({"msg":'nok', "err":err.message});
     }
 })
 

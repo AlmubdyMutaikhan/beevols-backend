@@ -32,7 +32,27 @@ const blogSchema = new Schema({
     author : {
         type : Schema.Types.ObjectId,
         ref : 'User'
-    }
+    },
+    comments : [{
+        comment : {
+            type:String
+        },
+        senderID : {
+            type : Schema.Types.ObjectId,
+            ref : 'User'
+        },
+        sentAt : {
+            type : Date,
+            default : Date.now
+        },
+        name:{
+            type : 'String'
+        },
+        avatarLink : {
+            type : 'String'
+        }
+
+    }]
 })
 
 const blogModel = model('Blog', blogSchema);
