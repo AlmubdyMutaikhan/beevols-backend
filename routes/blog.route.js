@@ -58,4 +58,18 @@ blogRoute.post('/:id/comment', async (req, res) => {
     }
 })
 
+
+blogRoute.post('/:id/like', async(req, res) => {
+    try {
+        const blogID = req.params.id;
+        const blog = await BlogModel.findById(blogID);
+        console.log(blog);
+        blog.likes += 1;
+        await blog.save();
+        return res.status(201).send({"blogID":blogID});
+    } catch(err) {
+         res.status(400).send({"msg":'nok', "err":err.message});
+    }
+})
+
 module.exports = blogRoute;
