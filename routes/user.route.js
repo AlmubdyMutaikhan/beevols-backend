@@ -25,6 +25,19 @@ userRoute.route('/')
         }
     })
 
+userRoute.get('/notificaions', async (req, res) => {
+        try {
+            const id = req.query.id;
+            const user = await UserModel.findById(id).select('notifications');
+            res.status(201).send({"msg":"ok", "notifications" : user});
+        } catch(err) {
+            console.log(err.message);
+            res.status(400).send({"msg":"nok", "err":err.message});
+        }
+    })
+
+
+
 userRoute.get('/blog/all', async (req, res) => {
     try {
         const id = req.query.id;
