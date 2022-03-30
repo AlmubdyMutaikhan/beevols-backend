@@ -42,6 +42,24 @@ const UserSchema = new Schema({
     friends : [{
         type : Schema.Types.ObjectId,
         ref : 'User'
+    }],
+    notifications : [{
+        notName : {
+            type : String
+        },
+        notLink : {
+            type : String
+        },
+        notType : {
+            type : String
+        },
+        notMsg : {
+            type : String
+        },
+        isRead : {
+            type : Boolean,
+            default : false
+        }
     }]
 })
 

@@ -38,5 +38,53 @@ userRoute.get('/blog/all', async (req, res) => {
     }
 })
 
+userRoute.route('/friends')
+    .post(async(req, res) => {
+        const userID = req.body.userID;
+        const friendID = req.body.friendID; // potential friend
+        
+        try {
+            const user = await UserModel.findById(userID).select('fname sname');
+            const friend = await UserModel.findById(friendID).select('notifications');
+
+            const notification = {
+                name : 'Дос болғым келеді',
+                notType : 'add',
+                notMsg : `Сізбен ${user.sname} ${user.fname} дос болғысы келеді`,
+                notLink : `/friends/add/${friendID}/${userID}`, 
+            }
+
+            friend.notifications.push(notification);
+            const notRes = await friend.save();
+            return res.status(201).send(notRes);
+        } catch(err) {
+            console.log(err);
+            res.status(400).send("error");
+        }
+    })
+
+userRoute.get('/friends/add/:friend/:user', async (req, res) => {
+    try {
+        const userID = req.params.user;
+        const friendID = req.params.friend;
+
+        const user = await UserModel.findById(userID).select('friends');
+        const friend = await UserModel.findById(friendID).select('friends');
+
+        user.friends.push(friendID);
+        friend.friends.push(userID);
+
+        await user.save();
+        await friend.save();
+
+        return res.status(200).send({msg:"ok"})
+    } catch(err) {
+        res.status(400).send({msg:err.message});
+    }
+})
+
+
+
+
 
 module.exports = userRoute;
