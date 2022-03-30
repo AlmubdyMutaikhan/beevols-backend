@@ -66,8 +66,8 @@ userRoute.route('/friends')
         const friendID = req.body.friendID; // potential friend
         
         try {
-            const user = await UserModel.findById(userID).select('fname sname requestFriendsList');
-            const friend = await UserModel.findById(friendID).select('notifications');
+            const user = await UserModel.findById(userID).select('fname sname');
+            const friend = await UserModel.findById(friendID).select('notifications requestFriendsList');
 
             const notification = {
                 name : 'Дос болғым келеді',
