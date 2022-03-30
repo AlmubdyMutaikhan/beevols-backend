@@ -76,10 +76,11 @@ userRoute.route('/friends')
                 notLink : `/friends/add/${friendID}/${userID}`, 
             }
 
-            friend.requestFriendList.push(user._id);
+            friend.requestFriendsList.push(user._id);
             friend.notifications.push(notification);
             const notRes = await friend.save();
-            return res.status(201).send(notRes);
+            console.log(notRes);
+            res.status(201).send(notRes);
         } catch(err) {
             console.log(err);
             res.status(400).send("error");
