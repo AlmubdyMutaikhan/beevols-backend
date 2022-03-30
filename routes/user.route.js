@@ -25,7 +25,7 @@ userRoute.route('/')
         }
     })
 
-userRoute.get('/notificaions', async (req, res) => {
+userRoute.get('/notifications', async (req, res) => {
         try {
             const id = req.query.id;
             const user = await UserModel.findById(id).select('notifications');
