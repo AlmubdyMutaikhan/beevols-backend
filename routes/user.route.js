@@ -25,6 +25,15 @@ userRoute.route('/')
         }
     })
 
+userRoute.get('/all', async (req, res) => {
+    try {
+        const users = await UserModel.find({}).select('fname sname avatarURL major');
+        res.status(201).send(users);
+    } catch(err) {
+        res.status(400).send({'msg':'ok', 'err':err.message});
+    }
+})
+
 userRoute.get('/notifications', async (req, res) => {
         try {
             const id = req.query.id;
