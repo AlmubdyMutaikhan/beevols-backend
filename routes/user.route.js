@@ -75,7 +75,8 @@ userRoute.route('/friends')
                 notMsg : `Сізбен ${user.sname} ${user.fname} дос болғысы келеді`,
                 notLink : `/friends/add/${friendID}/${userID}`, 
             }
-            user.requestFriendList.push(friend._id);
+
+            friend.requestFriendList.push(user._id);
             friend.notifications.push(notification);
             const notRes = await friend.save();
             return res.status(201).send(notRes);
