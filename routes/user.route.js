@@ -66,7 +66,7 @@ userRoute.route('/friends')
         const friendID = req.body.friendID; // potential friend
         
         try {
-            const user = await UserModel.findById(userID).select('fname sname');
+            const user = await UserModel.findById(userID).select('fname sname requestFriendsList');
             const friend = await UserModel.findById(friendID).select('notifications');
 
             const notification = {
@@ -75,7 +75,7 @@ userRoute.route('/friends')
                 notMsg : `Сізбен ${user.sname} ${user.fname} дос болғысы келеді`,
                 notLink : `/friends/add/${friendID}/${userID}`, 
             }
-
+            user.requestFriendList.push(friend._id);
             friend.notifications.push(notification);
             const notRes = await friend.save();
             return res.status(201).send(notRes);
