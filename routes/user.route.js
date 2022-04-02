@@ -25,6 +25,9 @@ userRoute.route('/')
         }
     })
 
+
+
+
 userRoute.get('/all', async (req, res) => {
     try {
         const users = await UserModel.find({}).select('fname sname avatarURL major');
@@ -52,7 +55,6 @@ userRoute.get('/blog/all', async (req, res) => {
         const id = req.query.id;
         if(id) {
             const userDoc = await UserModel.findById(id).populate({path:'blogs'}).exec();
-            console.log(userDoc);
             res.status(200).send({'msg':'ok', blogs:userDoc.blogs})
         }
     } catch(err) {
@@ -70,10 +72,10 @@ userRoute.route('/friends')
             const friend = await UserModel.findById(friendID).select('notifications requestFriendsList');
 
             const notification = {
-                name : 'Дос болғым келеді',
+                notName : 'Дос болғым келеді',
                 notType : 'add',
                 notMsg : `Сізбен ${user.sname} ${user.fname} дос болғысы келеді`,
-                notLink : `/friends/add/${friendID}/${userID}`, 
+                notLink : `/friends/add/${friendID}/${userID}`
             }
 
             friend.requestFriendsList.push(user._id);
@@ -86,27 +88,87 @@ userRoute.route('/friends')
             res.status(400).send("error");
         }
     })
+    .get(async(req, res) => {
+        try {
+            const userID = req.query.id;
+            const friends = await UserModel.findById(userID).populate({path:'friends', select : 'avatarURL fname sname'}).exec();
+            res.status(201).send(friends);
+        } catch(err) {
+            console.log(err);
+            res.status(400).send("error");
+        }
+    })
 
-userRoute.get('/friends/add/:friend/:user', async (req, res) => {
+userRoute.get('/friends/add/:friend/:user/', async (req, res) => {
     try {
         const userID = req.params.user;
         const friendID = req.params.friend;
+        const notID = req.query.notID;
 
-        const user = await UserModel.findById(userID).select('friends');
-        const friend = await UserModel.findById(friendID).select('friends');
+        const user = await UserModel.findById(userID).select('friends notifications');
+        const friend = await UserModel.findById(friendID).select('friends fname sname requestFriendsList notifications');
+        
+        for(let i = 0; i < friend.notifications.length;i++) {
+            if(friend.notifications[i]._id.toString() === notID) {
+                friend.notifications[i].isRead = true;
+            }
+        }
+        
+        if(user.friends.includes(friendID)) {
+            throw new Error('already friends');
+        }
+    
+
+        friend.requestFriendsList.pop();
+
+
+        const notification = {
+            notName : 'Дос болу',
+            notType : 'msg',
+            notMsg : `Сізді ${friend.sname} ${friend.fname} дос ретінде қабылдады`,
+            notLink : `/friends/confirm/${user._id}`
+        }
+
+        user.notifications.push(notification);
 
         user.friends.push(friendID);
         friend.friends.push(userID);
+        
 
         await user.save();
         await friend.save();
 
         return res.status(200).send({msg:"ok"})
     } catch(err) {
+        console.log(err);
         res.status(400).send({msg:err.message});
     }
 })
 
+
+
+userRoute.get('/friends/confirm/:user', async (req, res) => {
+    try {
+        const userID = req.params.user;
+        const notID = req.query.notID;
+
+        const user = await UserModel.findById(userID).select('notifications');
+        
+        for(let i = 0; i < user.notifications.length;i++) {
+            if(user.notifications[i]._id.toString() === notID) {
+                user.notifications[i].isRead = true;
+            }
+        }
+        
+        console.log(user.notifications);
+
+        await user.save();
+        return res.status(200).send({msg:"ok"})
+    } catch(err) {
+        console.log(err);
+        res.status(400).send({msg:err.message});
+    }
+})
 
 
 

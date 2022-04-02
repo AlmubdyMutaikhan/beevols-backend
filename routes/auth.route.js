@@ -55,7 +55,7 @@ authRoute.post('/signin', async (req, res) => {
 authRoute.get('/payload', async (req, res) => {
     const token = req.query.token;
     const payload = Token.decodeToken(token);
-    console.log(payload);
+
 
     res.status(200).send({"msg":"ok", payload });
    
