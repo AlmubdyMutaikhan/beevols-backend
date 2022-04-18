@@ -3,6 +3,8 @@ const { Router } = require('express');
 const blogRoute = Router();
 const BlogModel = require('../models/Blog.model');
 const UserModel = require('../models/User.model');
+const GroupModel = require('../models/Group.model');
+
 blogRoute.get('/all', async (req, res) => {
     try {
         const blogDoc = await BlogModel.find({});
@@ -11,6 +13,7 @@ blogRoute.get('/all', async (req, res) => {
         res.status(400).send({"msg":'nok', "err":err.message});
     }
 })
+
 blogRoute.post('/new', async (req, res) => {
     try {
         const data = req.body.blog;
@@ -32,6 +35,31 @@ blogRoute.post('/new', async (req, res) => {
         res.status(400).send({"msg":'nok', "err":err.message})
     }
 })
+
+
+blogRoute.post('/post', async (req, res) => {
+    try {
+        const data = req.body.blog;
+        const groupID = req.body.id;
+        const groupDoc = await GroupModel.findById(groupID);
+        // valudation of data
+        if(groupDoc) {
+            data.author = groupID;
+            console.log(data);
+            const blogDoc = await BlogModel.create(data);
+            groupDoc.activity.push(blogDoc._id);
+            await groupDoc.save();
+            res.status(201).send({'msg':"ok", 'blogID' : groupDoc._id});
+        } else {
+            throw new Error('author id is incorrect');
+        }
+        
+    } catch(err) {
+        console.log(err.message);
+        res.status(400).send({"msg":'nok', "err":err.message})
+    }
+})
+
 
 
 blogRoute.get('/:id', async (req, res) => {
