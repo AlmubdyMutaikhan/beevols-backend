@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const blogModel = require('../models/Blog.model');
 const Group = require('../models/Group.model');
 const GroupRoute = Router();
 
@@ -37,7 +38,8 @@ GroupRoute.route('/:id')
   .get(async (req, res) => {
       try {
         const id = req.params.id;
-        const group = await Group.findById(id);
+        const group = await Group.findById(id).populate({path:'activity'}).exec();
+
         res.status(200).send({msg:'ok', group});
       } catch(err) {
         console.log(err.message);

@@ -3,7 +3,14 @@ const { Router } = require('express');
 const blogRoute = Router();
 const BlogModel = require('../models/Blog.model');
 const UserModel = require('../models/User.model');
-
+blogRoute.get('/all', async (req, res) => {
+    try {
+        const blogDoc = await BlogModel.find({});
+        res.status(200).send({"msg":'ok', "blogs":blogDoc});
+    } catch(err) {
+        res.status(400).send({"msg":'nok', "err":err.message});
+    }
+})
 blogRoute.post('/new', async (req, res) => {
     try {
         const data = req.body.blog;
@@ -36,6 +43,7 @@ blogRoute.get('/:id', async (req, res) => {
         res.status(400).send({"msg":'nok', "err":err.message});
     }
 })
+
 
 
 blogRoute.post('/:id/comment', async (req, res) => {
