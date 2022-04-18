@@ -7,6 +7,7 @@ const userRoute = require('./routes/user.route');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const blogRoute = require('./routes/blog.route');
+const groupRoute = require('./routes/group.route');
 
 app.use(cors({
     origin : '*'
@@ -29,3 +30,4 @@ DB.connectToDB()
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/blog', blogRoute);
+app.use('/group', groupRoute);
