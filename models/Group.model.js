@@ -32,8 +32,14 @@ const GroupSchema = new Schema({
   activity : [{
       type : Schema.Types.ObjectId,
       ref : 'Blog'
-  }]
-
+  }],
+  adress : {
+      type : String
+  },
+  createdAt : {
+      type : Date,
+      default : Date.now
+  }
 })
 
 const GroupModel = model('Group', GroupSchema);
