@@ -68,7 +68,17 @@ const GroupSchema = new Schema({
           lvl : {
               type : String
           }
-      }]
+      }],
+      finished : {
+          type : Boolean,
+          default : false
+      },
+      direction : {
+          type : String
+      },
+      avatarURL : {
+          type : String
+      }
   }]
 })
 

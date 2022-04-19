@@ -48,6 +48,20 @@ GroupRoute.route('/:id')
         res.status(400).send({"msg":'nok', "err":err.message})
       }
   })
+  .post(async (req, res) => {
+      try {
+        const project = req.body.project;
+        const groupID = req.params.id;
+
+        const group = await Group.findById(groupID);
+        group.projects.push(project);
+        await group.save();
+        res.status(200).send({msg:'ok', group});
+      } catch(err) {
+        console.log(err.message);
+        res.status(400).send({"msg":'nok', "err":err.message})
+      }
+  })
 
 GroupRoute.get('/add/request', async (req, res) => {
     try {
