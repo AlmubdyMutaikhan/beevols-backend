@@ -52,7 +52,6 @@ GroupRoute.route('/:id')
 GroupRoute.get('/add/request', async (req, res) => {
     try {
         const id = req.query.userID;
-        const groupName = req.query.groupName;
         const adminID = req.query.adminID;
         const groupID = req.query.groupID;
 

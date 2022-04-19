@@ -17,7 +17,7 @@ userRoute.route('/')
     .get(async (req, res) => {
         try {
             const id = req.query.id;
-            const user = await UserModel.findById(id);
+            const user = await UserModel.findById(id).populate({path:'blogs'}).exec();
             res.status(201).send({"msg":"ok", "user" : user});
         } catch(err) {
             console.log(err.message);
