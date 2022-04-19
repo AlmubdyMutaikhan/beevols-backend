@@ -39,7 +39,37 @@ const GroupSchema = new Schema({
   createdAt : {
       type : Date,
       default : Date.now
-  }
+  },
+  contacts : {
+      email : {
+          type : String
+      },
+      phone: {
+          type : String
+      }
+  },
+  projects : [{
+      name : {
+          type : String
+      },
+      deadline : {
+          type : String
+      },
+      desc : {
+          type : String
+      },
+      todos : [{
+          name : {
+              type : String
+          },
+          assignedTo: [{
+            type : String             
+          }],
+          lvl : {
+              type : String
+          }
+      }]
+  }]
 })
 
 const GroupModel = model('Group', GroupSchema);
