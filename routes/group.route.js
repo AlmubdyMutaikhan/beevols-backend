@@ -76,7 +76,9 @@ GroupRoute.post('/project/:id/todo', async (req, res) => {
                 projectIndex = key;
             }
         })
-
+    
+        //console.log(group.projects[projectIndex]);
+        
         group.projects[projectIndex].todos.push(todo);
         await group.save();
         res.send({msg:'ok', group});
