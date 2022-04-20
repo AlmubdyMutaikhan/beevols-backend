@@ -63,6 +63,29 @@ GroupRoute.route('/:id')
       }
   })
 
+GroupRoute.post('/project/:id/todo', async (req, res) => {
+    try {
+        const projectID = req.params.id;
+        const groupID = req.body.groupID;
+        const todo = req.body.todo;
+        const group = await Group.findById(groupID).select('projects');
+        let projectIndex = -1;
+
+        group.projects.map((i, key) => {
+            if(projectID === i._id.toString()) {
+                projectIndex = key;
+            }
+        })
+
+        group.projects[projectIndex].todos.push(todo);
+        await group.save();
+        res.send({msg:'ok', group});
+    } catch(err) {
+        console.log(err.message);
+        res.status(400).send({"msg":'nok', "err":err.message})
+    }
+})
+
 GroupRoute.get('/add/request', async (req, res) => {
     try {
         const id = req.query.userID;
