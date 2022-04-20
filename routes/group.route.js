@@ -40,7 +40,7 @@ GroupRoute.route('/:id')
   .get(async (req, res) => {
       try {
         const id = req.params.id;
-        const group = await Group.findById(id).populate({path:'activity'}).exec();
+        const group = await Group.findById(id).populate([{path:'activity'}, {path:'members', select:'fname sname'} ]).exec();
 
         res.status(200).send({msg:'ok', group});
       } catch(err) {
