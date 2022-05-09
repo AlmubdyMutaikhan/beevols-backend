@@ -1,3 +1,9 @@
+/*
+    Description of file:
+    This is the main file, which collects modules and 
+
+*/
+
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3001;
