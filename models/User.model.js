@@ -63,7 +63,11 @@ const UserSchema = new Schema({
             type : Boolean,
             default : false
         }
-    }]
+    }],
+    bpoints : {
+        type : Number,
+        default : 0
+    }
 })
 
 const userModel = model('User', UserSchema);
