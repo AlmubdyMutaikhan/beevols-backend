@@ -67,6 +67,17 @@ const UserSchema = new Schema({
     bpoints : {
         type : Number,
         default : 0
+    },
+    hero:{
+        name : {
+            type : String
+        },
+        img : {
+            type : String
+        },
+        stars : {
+            type : Number
+        }
     }
 })
 

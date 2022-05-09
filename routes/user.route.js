@@ -145,7 +145,21 @@ userRoute.get('/friends/add/:friend/:user/', async (req, res) => {
     }
 })
 
+userRoute.post('/pokemon', async (req, res ) => {
+    try {
 
+        const user = await UserModel.findById(req.body.id);
+        user.hero.name = req.body.name;
+        user.hero.img = req.body.img;
+        user.hero.stars = 0;
+        await user.save();
+        res.status(201).send({msg:'created pokemon'})
+    } catch(err) {
+        console.log(err);
+        res.status(400).send({msg:err.message});
+    }
+
+} )
 
 userRoute.get('/friends/confirm/:user', async (req, res) => {
     try {
