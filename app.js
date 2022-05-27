@@ -14,6 +14,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const blogRoute = require('./routes/blog.route');
 const groupRoute = require('./routes/group.route');
+const Events = require('./models/Event.model');
 
 app.use(cors({
     origin : '*'
@@ -32,6 +33,15 @@ DB.connectToDB()
         console.log("error while connectiong to db");
 })
 
+
+app.get('/events', async (req, res) => {
+    try {
+        const doc = await Events.find({});
+        res.send({events:doc})
+    } catch(err) {
+        console.log(err);
+    } 
+})
 
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
