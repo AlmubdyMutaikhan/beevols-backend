@@ -17,7 +17,7 @@ authRoute.post('/signup', async (req, res) => {
         // auto fill the data
         req.body.about = 'Мен еріктімін.';
         req.body.region = 'Қарағанды қаласы';
-        req.body.major = 'Медицина';
+        req.body.major = 'Спорт';
         req.body.date = '2000-01-01';
         req.body.avatarURL = 'https://nextstepu.files.wordpress.com/2013/03/istock_000015874546medium.jpg';
         req.body.wins = '';
