@@ -15,6 +15,7 @@ const cors = require('cors');
 const blogRoute = require('./routes/blog.route');
 const groupRoute = require('./routes/group.route');
 const Events = require('./models/Event.model');
+const isRoute = require('./routes/is.route');
 
 app.use(cors({
     origin : '*'
@@ -47,3 +48,4 @@ app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/blog', blogRoute);
 app.use('/group', groupRoute);
+app.use('/event', isRoute);

@@ -25,6 +25,10 @@ const GroupSchema = new Schema({
       type : Schema.Types.ObjectId,
       ref : 'User'
   },
+  events:[{
+    type:Schema.Types.ObjectId,
+    ref:'Is'
+  }],
   projects : [{
       type : Schema.Types.ObjectId,
       ref : 'Project'
