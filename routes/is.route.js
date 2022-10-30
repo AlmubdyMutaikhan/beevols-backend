@@ -29,6 +29,24 @@ isRoute.post('/new', async (req, res) => {
     }
 })
 
+isRoute.delete('/:gId/:evId', async (req, res) => {
+    try {
+        const groupID = req.params.gId;
+        const eventID = req.params.evId;
+        
+        const groupDoc = await GroupModel.findById(groupID);
+       
+        const index = groupDoc.events.indexOf(eventID); 
+        groupDoc.events.splice(index, 1);
+        await groupDoc.save();
+        await IsModel.findByIdAndDelete(eventID);
+        res.status(201).send({'msg':"ok removed"});
+    } catch(err) {
+        console.log(err.message);
+        res.status(400).send({"msg":'nok', "err":err.message})
+    }
+})
+
 isRoute.get('/:gId/all', async (req, res) => {
     try {
         const groupID = req.params.gId;
