@@ -85,4 +85,34 @@ isRoute.get('/all', async(req, res) => {
     }
 })
 
+
+isRoute.post('/register', async (req, res) => {
+    try {
+        const uId = req.body.uId;
+        const eventID = req.body.eventId;
+        const user = await UserModel.findById(userID).select('notifications');
+        const isEvent = await IsModel.findById(eventID);        
+        isEvent.participants.push(uId);
+
+
+        const notification = {
+            notName : 'Іс-шараға тіркелу',
+            notType : 'msg',
+            notMsg : `Сіз ${eventID} ID мен іс-шараға сәтті тіркелдіңіз. Алдағы уақытта сізбен іс-шара өткізуші хабарласады.`
+        }
+
+        user.notifications.push(notification);
+        
+
+        await user.save();
+        await isEvent.save();
+        res.status(201).send({msg:'ok'});
+
+    } catch(err) {
+        console.log(err.message);
+        res.status(400).send({"msg":'nok', "err":err.message})
+    }
+})
+
+
 module.exports = isRoute;
