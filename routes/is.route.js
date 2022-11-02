@@ -58,23 +58,6 @@ isRoute.get('/:gId/all', async (req, res) => {
     }
 })
 
-isRoute.post('/register', async (req, res) => {
-    try {
-        const uId = req.body.uId;
-        const eventID = req.body.eventId;
-        const isEvent = await IsModel.findById(eventID);
-        const user = await UserModel.findById(uId);
-        
-        isEvent.participants.push(uId);
-        user.events.push(isEvent._id);
-        await isEvent.save();
-        await user.save();
-        res.status(201).send({"msg":"ok"})
-    } catch(err) {
-
-    }
-})
-
 isRoute.get('/all', async(req, res) => {
     try {
         const ises = await IsModel.find({});
@@ -86,15 +69,15 @@ isRoute.get('/all', async(req, res) => {
 })
 
 
-isRoute.post('/register', async (req, res) => {
+isRoute.post('/reg', async (req, res) => {
+    console.log(req.body);
     try {
         const uId = req.body.uId;
         const eventID = req.body.eventId;
-        const user = await UserModel.findById(userID).select('notifications');
+        const user = await UserModel.findById(uId).select('notifications');
         const isEvent = await IsModel.findById(eventID);        
         isEvent.participants.push(uId);
-
-
+    
         const notification = {
             notName : 'Іс-шараға тіркелу',
             notType : 'msg',
@@ -102,11 +85,9 @@ isRoute.post('/register', async (req, res) => {
         }
 
         user.notifications.push(notification);
-        
-
-        await user.save();
-        await isEvent.save();
-        res.status(201).send({msg:'ok'});
+        const newUser = await user.save();
+        const newEvent = await isEvent.save();
+        res.status(201).send({newUser, newEvent});
 
     } catch(err) {
         console.log(err.message);
