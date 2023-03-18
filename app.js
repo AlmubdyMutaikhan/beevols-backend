@@ -22,7 +22,9 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
-
+app.get('/', (req, res) => {
+    res.json({"test":"hello beevols!"})
+})
 DB.connectToDB()
     .then(() => {
         app.listen(PORT, () => {
