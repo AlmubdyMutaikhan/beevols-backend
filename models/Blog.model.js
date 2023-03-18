@@ -20,14 +20,13 @@ const blogSchema = new Schema({
         type : String,
         required : true
     },
-    
     publishedAt : {
         type : Date,
         default : Date.now
     },
     likes : {
         type : Number,
-        default : 0
+        default : 10
     },
     author : {
         type : Schema.Types.ObjectId,
@@ -51,7 +50,6 @@ const blogSchema = new Schema({
         avatarLink : {
             type : 'String'
         }
-
     }]
 })
 

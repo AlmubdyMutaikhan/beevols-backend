@@ -44,8 +44,11 @@ app.get('/events', async (req, res) => {
     } 
 })
 
+
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
-app.use('/blog', blogRoute);
 app.use('/group', groupRoute);
 app.use('/event', isRoute);
+app.use('/blog', blogRoute);
+
+// backend is ready for testing :D!

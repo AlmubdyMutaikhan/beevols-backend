@@ -29,7 +29,7 @@ GroupRoute.get('/all', async (req, res) => {
 GroupRoute.route('/:id')
  .put(async (req, res) => {
         try {
-            const id = req.params.id;
+            const id = req.params.id; // getting ID of user
             let group = await Group.findByIdAndUpdate(id, req.body);
             res.status(201).send({msg:'ok update', group});
         } catch(err) {
