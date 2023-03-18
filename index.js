@@ -17,10 +17,13 @@ const groupRoute = require('./routes/group.route');
 const Events = require('./models/Event.model');
 const isRoute = require('./routes/is.route');
 
-app.use(cors({
-    origin : '*'
-}));
-
+// Allow all origins to access our API
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+  
 app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.json({"test":"hello beevols!"})
